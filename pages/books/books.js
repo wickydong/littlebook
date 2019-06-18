@@ -15,7 +15,7 @@ Page({
         duration: 1000,
         circular: true, 
         next: '100rpx',
-        showloading: true,
+        showloading: true
     },
 
     getbooklist: function(){
@@ -60,12 +60,11 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
-        //let that = this;
-        // wx.redirectTo({
-        //     url: '/pages/login/login?nimabi=nimabi',
-        // })
-        //that.getbooklist();
-    },
+        // if (options.msg == 0){
+        this.getbooklist()
+        // }
+        
+     },
 
     /**
      * 生命周期函数--监听页面初次渲染完成

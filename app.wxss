@@ -28,3 +28,15 @@
   animation: donut-spin 0.5s linear infinite;
 }
 /*甜甜圈loading end*/
+.donut-container {
+	padding-top: 200rpx;
+}
+.swiper-container {
+	/*border: 1px solid red;*/
+	box-sizing: border-box;
+	padding: 120rpx 0 50rpx 0;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}

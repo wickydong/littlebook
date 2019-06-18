@@ -1,14 +1,27 @@
 {
     "pages": [
+        "pages/login/login",
         "pages/books/books",
-        "pages/login/login"
+        "pages/me/me"
     ],
+    "tabBar": {
+        "list": [{
+            "pagePath": "pages/books/books",
+            "text": "藏经阁"
+        },
+                {
+            "pagePath": "pages/me/me",
+            "text": "洒家"
+                }
+        ]
+    },
+   
     "window": {
         "backgroundTextStyle": "light",
         "navigationBarBackgroundColor": "#fff",
         "navigationBarTitleText": "WeChat",
         "navigationBarTextStyle": "black"
     },
-    "sitemapLocation": "sitemap.json",
-     "debug": true
+    "sitemapLocation": "sitemap.json"
+    
 }

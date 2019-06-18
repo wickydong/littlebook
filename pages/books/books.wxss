@@ -45,11 +45,6 @@
   	transition: all 1 ease 0;
 }
 
-.book-image {
-	/*border: 1px solid #cdcdcd;*/
-	/*box-shadow: 0 0 10rpx #dcdcdc;*/
-}
-
 .book-image > image {
 	width: 350rpx;
 }

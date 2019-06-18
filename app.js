@@ -3,115 +3,108 @@ const api = require('./config/config.js');
 //var  usermsg = {};
 App({
     onLaunch: function(){
-        this.dologin()
+        //this.dologin()
     },
-    dologin: function(){
-        let that = this;
-        wx.login({    //调用登录api，获取code向后端发起请求
-            success:function(res) {    
-                if (res.code) {
-                    that.userinfo(res.code);
-                    //console.log("from login", usermsg);
+    // checksession: function(){   //检查skey是否存在，不存在需登录
+    //     let that = this;        //存在即验证session是否过期，否则跳转
+    //     let loginflag = wx.getStorageSync('skey'); //过期则登录
+    //     if (loginflag) {
+    //         wx.checkSession({
+    //             success: function(){
+    //                 wx.redirectTo({
+    //                     // url: '/pages/books/books?msg=0',
+    //                     url: '/pages/login/login?msg=0'
+    //                 })
+    //             },
+    //             fail: function(){
+    //                 that.dologin()
+    //             }
+    //         })
+    //     }else {
+    //         that.dologin()
+    //     }
+    // },
+    // dologin: function(){
+    //     let that = this;
+    //     wx.login({    //调用登录api，获取code向后端发起请求
+    //         success:function(res) {    
+    //             if (res.code) {
+    //                 that.userinfo(res.code);
+    //                 //console.log("from login", usermsg);
                   
-                }else {
-                    that.showinfo("登录失败,接口未返回code");
-                    console.log('登录失败，原因：'+ res.errMsg)
-                }
-            },
-            fail: function(res){
-                that.showinfo('调用登录接口失败');
-                console.log('调用登录接口失败，原因：'+res)
-            }
-        })
-    },
+    //             }else {
+    //                 that.showinfo("登录失败,接口未返回code");
+    //                 console.log('登录失败，原因：'+ res.errMsg)
+    //             }
+    //         },
+    //         fail: function(res){
+    //             that.showinfo('调用登录接口失败');
+    //             console.log('调用登录接口失败，原因：'+res)
+    //         }
+    //     })
+    // },
 
-    userinfo: function(code){            //获取用户授权情况，如果用户尚未授权获取信息，就申请授权后，调用接口获取用户信息
-        let that = this;
-        wx.getSetting({
-            success: function(msg){
-                if (! msg.authSetting['scope.userInfo']){
-                    wx.redirectTo({
-                        url: '/pages/login/login?auth=false',
-                        success: function(res) {
-                            console.log("跳转成功",res)
-                        },
-                        fail: function(res) {
-                            console.log("跳转失败",res)
-                        }
-                    })
-                    // wx.authorize({
-                    //     scope: 'userInfo',
-                    //     success: function(){
-                    //         that.getuserinfo(code);
-                            
-                    //     },
-                    //     fail: function(err){
-                    //         that.showinfo("授权失败");
-                    //         console.log("授权失败，原因是："+err)
-                    //     }
-                    // })
-                }else {
-                    that.getuserinfo(code);
-                    
-                }
-            },
-            fail: function(err){
-                console.log("获取用户当前授权信息失败，原因是："+err);
-                that.showinfo("获取当前用户授权信息失败")
-            }
-        });
-        //console.log("from userinfo",usermsg);
-        //return usermsg
-    },
+    // userinfo: function(code){            //获取用户授权情况，如果用户尚未授权获取信息，就申请授权后，调用接口获取用户信息
+    //     let that = this;
+    //     wx.getUserInfo({
+    //         withCredentials: true,
+    //         success: function (msg) {
+    //             if (msg.rawData) {
+    //                 wx.request({
+    //                     url: api.loginurl,
+    //                     data: {
+    //                         code: code,
+    //                         rawdata: msg.rawData,
+    //                         signature: msg.signature,
+    //                         encrypteddata: msg.encryptedData,
+    //                         iv: msg.iv
+    //                     },
+    //                     success: function (msg) {
+    //                         msg = msg.data;
+    //                         if (msg.status == 0) {
+    //                             wx.setStorageSync('skey', msg.skey)
+    //                             wx.redirectTo({
+    //                                 url: '/pages/login/login?msg=0',
+    //                                 // url: '/pages/books/books?msg=0',
+    //                                 success: function (res) { console.log("成功", res) },
+    //                                 fail: function (res) { console.log("失败", res) },
+    //                             });
 
-    getuserinfo: function(code){
-        let that = this;
-        wx.getUserInfo({
-            withCredentials: true,
-            success: function(msg){
-                //debugger;
-                // usermsg['userinfo'] =  msg.userInfo;
-                // usermsg['rawdata'] = msg.rawData;
-                // usermsg['signature'] =  msg.signature;
-                // usermsg['encrypteddata'] = msg.encryptedData;
-                // usermsg['iv'] = msg.iv;
-                if (msg.rawData) {
-                    wx.request({
-                        url: api.loginurl,
-                        data: { code: code,
-                                rawdata: msg.rawData,
-                                signature: msg.signature,
-                                encrypteddata: msg.encryptedData,
-                                iv: msg.iv },
-                        success: function (msg) {
-                            msg = msg.data;
-                            if (msg.status == 0) {
-                                wx.setStorageSync('skey', msg.skey)
+    //                         } else {
+    //                             //that.showinfo(res.errmsg);
+    //                             console.log("后端服务器返回错误数据")
+    //                         }
+    //                     },
+    //                     fail: function (msg) {
+    //                         console.log("请求后端服务器接口失败");
+    //                         that.showinfo(msg)
+    //                     }
+    //                 })
+    //             } else {
+    //                 that.showinfo("获取用户信息失败")
+    //             }
+    //         },
+    //         fail: function(err){
+    //             console.log("获取用户数据失败"+err);
+    //             that.showinfo("获取用户数据失败");
+    //             // wx.redirectTo({
+    //             //     url: '/pages/login/login',
+    //             //     success: function (res) {
+    //             //         console.log("跳转成功", res)
+    //             //     },
+    //             //     fail: function (res) {
+    //             //         console.log("跳转失败", res)
+    //             //     }
+    //             // })
+    //         }
+    //     });
+    //     //console.log("from userinfo",usermsg);
+    //     //return usermsg
+    // },
 
-                            } else {
-                                //that.showinfo(res.errmsg);
-                                console.log("后端服务器返回错误数据")
-                            }
-                        },
-                        fail: function (msg) {
-                            console.log("请求后端服务器接口失败");
-                            that.showinfo(msg)
-                        }
-                    })
-                } else {
-                    that.showinfo("获取用户信息失败")
-                }  
-            },
-            fail: function(err){
-                console.log("获取用户数据失败",err)
-            }
-        });
-        //console.log(usermsg);
-        //return usermsg
-    },
-    showinfo: function(msg){
-        console.log(msg)
-    }
+    // showinfo: function(msg){
+    //     console.log(msg)
+    // }
 
 
 
