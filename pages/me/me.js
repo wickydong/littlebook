@@ -47,14 +47,14 @@ Page({
     onShow: function () {
         let that = this;
         let infostatus = wx.getStorageSync('userinfo');
-        console.log(infostatus);
-        // this.setData({haslogin: wx.getStorageSync('skey') ? true:false});
-        app.checksession(this.modifystatus);
         if (infostatus) {
-            console.log("from here");
-            that.setData({ hasinfo: true, userinfo: infostatus });
-            console.log(that.data.userinfo)
-        }
+            infostatus = JSON.parse(infostatus);
+            that.setData({ userinfo: infostatus, hasinfo: true });
+        };
+        console.log("heiheihei");
+        // this.setData({haslogin: wx.getStorageSync('skey') ? true:false});
+        app.checksession(this.modifystatus)
+
     },
 
     /**

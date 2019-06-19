@@ -10,6 +10,7 @@
             <button open-type="getUserInfo" bindgetuserinfo='getuserinfo' type="primary" plain="true">需要您的授权</button>
         </block>
         <block wx:else>
+            
             <image class="userinfo-avatar" src="{{userinfo.avatarUrl}}" background-size="cover"></image>
             <text class="userinfo-nickname">{{userinfo.nickName}}</text>
         </block>
