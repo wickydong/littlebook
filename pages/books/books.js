@@ -61,7 +61,7 @@ Page({
      */
     onLoad: function (options) {
         // if (options.msg == 0){
-        this.getbooklist()
+        //app.checksession(this.getbooklist)
         // }
         
      },
@@ -77,7 +77,7 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function () {
-
+        app.checksession(this.getbooklist)
     },
 
     /**
