@@ -10,9 +10,26 @@
             <button open-type="getUserInfo" bindgetuserinfo='getuserinfo' type="primary" plain="true">需要您的授权</button>
         </block>
         <block wx:else>
-            
             <image class="userinfo-avatar" src="{{userinfo.avatarUrl}}" background-size="cover"></image>
             <text class="userinfo-nickname">{{userinfo.nickName}}</text>
+
         </block>
+    </view>
+</view>
+
+<view class="tab-container bg-white">
+    <view class="tab-item border-bottom">
+        <view>
+            <image src="../../images/luckyCoin.png" mode="aspectFit" class="tab-icon"></image>
+            <text class="tab-text">积分</text>
+        </view>
+        <text class="tab-text" wx:if="{{hasinfo}}">{{userinfo.balance}}</text>
+        <text class="tab-text" wx:else></text>
+    </view>
+    <view class="tab-item" hover-class="tab-item-hover" cachetap="gomybooks">
+        <view>
+            <image src="../../images/bought.png" mode="aspectFit" class="tab-icon"></image>
+            <text class="tab-text">已购</text>
+        </view>
     </view>
 </view>

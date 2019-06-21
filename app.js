@@ -67,50 +67,73 @@ App({
         })
     },
 
-    userinfo: function (callback=function(){}) {            //获取用户授权情况，如果用户尚未授权获取信息，就申请授权后，调用接口获取用户信息
+    userinfo: function (msg,callback=function(){}) {            //获取用户授权情况，如果用户尚未授权获取信息，就申请授权后，调用接口获取用户信息
         let that = this;
-        wx.getUserInfo({
-            withCredentials: false,
-            success: function (msg) {
-                if (msg.rawData) {
-                    wx.request({
-                        url: api.insertuserinfo,
-                        data: {
-                            rawdata: msg.rawData,
-                            signature: msg.signature,
-                            // encrypteddata: msg.encryptedData,
-                            // iv: msg.iv
-                        },
-                        success: function (res) {
-                            res = res.data;
-                            if (res.status == 0) {
-                                wx.setStorageSync('userinfo',msg.rawdata);
-                                that.globalData.userinfo = msg.rawData;
-                                callback()
-                                // wx.switchTab({
-                                //     url: '/pages/books/books',
-                                // })
-
-                            } else {
-                                that.showinfo(res.errmsg);
-                                console.log("后端服务器返回错误数据")
-                            }
-                        },
-                        fail: function (msg) {
-                            console.log("请求后端服务器接口失败");
-                            that.showinfo(msg)
-                        }
-                    })
-                } else {
-                    that.showinfo("获取用户信息失败")
+        let skey = wx.getStorageSync('skey');
+        if (skey){
+            msg = JSON.parse(msg);
+            msg['skey'] = skey;
+            wx.request({
+                url: api.userinfourl,
+                data: msg,
+                success: function(res){
+                    res = res.data;
+                    if (res.status==0){
+                        msg['balance'] = res.ubalance;
+                        wx.setStorageSync('userinfo', msg);
+                        callback()
+                    }else {
+                        console.log("用户查询更新请求数据库失败")
+                    }
                 }
-            },
-            fail: function (err) {
-                console.log("获取用户数据失败" + err);
-                that.showinfo("获取用户数据失败");
-                // that.setData({ "showloading": false })
-            }
-        });
+            })
+        }else {
+            console.log("没有登录态，请求什么用户信息")
+        }
+
+
+        // wx.getUserInfo({
+        //     withCredentials: false,
+        //     success: function (msg) {
+        //         if (msg.rawData) {
+        //             wx.request({
+        //                 url: api.insertuserinfo,
+        //                 data: {
+        //                     rawdata: msg.rawData,
+        //                     signature: msg.signature,
+        //                     // encrypteddata: msg.encryptedData,
+        //                     // iv: msg.iv
+        //                 },
+        //                 success: function (res) {
+        //                     res = res.data;
+        //                     if (res.status == 0) {
+        //                         wx.setStorageSync('userinfo',msg.rawdata);
+        //                         that.globalData.userinfo = msg.rawData;
+        //                         callback()
+        //                         // wx.switchTab({
+        //                         //     url: '/pages/books/books',
+        //                         // })
+
+        //                     } else {
+        //                         that.showinfo(res.errmsg);
+        //                         console.log("后端服务器返回错误数据")
+        //                     }
+        //                 },
+        //                 fail: function (msg) {
+        //                     console.log("请求后端服务器接口失败");
+        //                     that.showinfo(msg)
+        //                 }
+        //             })
+        //         } else {
+        //             that.showinfo("获取用户信息失败")
+        //         }
+        //     },
+        //     fail: function (err) {
+        //         console.log("获取用户数据失败" + err);
+        //         that.showinfo("获取用户数据失败");
+        //         // that.setData({ "showloading": false })
+        //     }
+        // });
     },
 
     showinfo: function (msg) {

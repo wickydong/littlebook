@@ -12,9 +12,9 @@ Page({
     },
 
     login: function(){
-        app.dologin(this.modifystatus);
+        app.dologin(this.modifyuserstatus);
     },
-    modifystatus: function(){
+    modifyuserstatus: function(){
         this.setData({haslogin: true});
         console.log(this.data.haslogin);
     },
@@ -27,13 +27,21 @@ Page({
 
     getuserinfo: function(e){
         let that = this;
-        if (e.detail){
-            wx.setStorageSync('userinfo', e.detail.rawData)
-            that.setData({hasinfo: true,userinfo:e.detail.userInfo})
+        console.log(e.detail);
+        if (e.detail.rawData){
+            app.userinfo(e.detail.rawData,this.modifyinfo)
         }
-        //拿到数据与后端比对，存入数据库中并写入本地缓存
-        
     },
+
+    modifyinfo: function(){
+        let that = this;
+        let infostatus = wx.getStorageSync('userinfo');
+        if (infostatus) {
+            //infostatus = JSON.parse(infostatus)
+            that.setData({hasinfo: true,userinfo: infostatus})
+        }
+    },
+
     /**
      * 生命周期函数--监听页面初次渲染完成
      */
@@ -45,15 +53,9 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function () {
-        let that = this;
-        let infostatus = wx.getStorageSync('userinfo');
-        if (infostatus) {
-            infostatus = JSON.parse(infostatus);
-            that.setData({ userinfo: infostatus, hasinfo: true });
-        };
-        console.log("heiheihei");
+        this.modifyinfo();
         // this.setData({haslogin: wx.getStorageSync('skey') ? true:false});
-        app.checksession(this.modifystatus)
+        app.checksession(this.modifyuserstatus)
 
     },
 
